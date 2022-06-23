@@ -1,0 +1,59 @@
+---
+title: "teste"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+runtime: shiny
+---
+
+#rmarkdown::run("/Users/lincoln/Documents/R/dashboards/teste.Rmd", shiny_args = list(host = "192.168.0.60", port = 2022))
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(tidyverse)
+df <- iris
+```
+
+Column{.sidebar}
+--------------------------------------------
+```{r}
+selectInput(
+  inputId = "coluna",
+  label = "Escolha a coluna",
+  choices = c("Sepal.Length", "Sepal.Width", "Petal.Length", "Petal.Width"),
+  selected = "Sepal.Length"
+)
+
+```
+Column {data-width=100}
+--------------------------------------------
+
+
+## Column {data-width="600"}
+
+### Boxplot
+
+```{r}
+shiny::renderPlot({
+  df %>% 
+    ggplot()+
+    aes(y = !!sym(input$coluna), fill = Species)+
+    geom_boxplot()+
+    theme(legend.position = "top")
+})
+```
+
+## Column {data-width="300"}
+
+### Chart B
+
+```{r}
+
+```
+
+### Chart C
+
+```{r}
+
+```
